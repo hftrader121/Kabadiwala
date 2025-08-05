@@ -1,7 +1,7 @@
 {
-    "name": "mast-india",
+    "name": "Kabadiwala",
     "version": "1.0.0",
-    "homepage": "https://github.com/hftrader121/mast-india",
+    "homepage": "https://github.com/hftrader121/Kabadiwala",
     "type": "module",
     "scripts": {
         "dev": "vite",
