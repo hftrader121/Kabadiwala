@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import emailjs from "emailjs-com";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FloatingActions from "@/components/FloatingActions";
@@ -23,9 +24,50 @@ import {
   DollarSign
 } from "lucide-react";
 
+// --- Email Templates (for reference) ---
+
+/*
+Subject: Scrap Pickup Request Received
+
+Hello {{fullName}},
+
+Thank you for submitting your scrap pickup request. We have received the following details:
+
+- 📧 Email: {{customerEmail}}
+- 📱 Mobile: {{mobile}}
+- 📍 Address: {{address}}
+- 🧾 Scrap Type: {{scrapType}}
+- 📅 Preferred Date: {{preferredDate}}
+- ⏰ Preferred Time: {{preferredTime}}
+
+We will contact you within 2 hours to confirm your pickup.
+
+Best regards,  
+Kabadiwala Team
+*/
+
+/*
+Subject: New Scrap Pickup Request
+
+You have received a new scrap pickup request:
+
+- 👤 Name: {{fullName}}
+- 📧 Email: {{customerEmail}}
+- 📱 Mobile: {{mobile}}
+- 📍 Address: {{address}}
+- 🧾 Scrap Type: {{scrapType}}
+- 📝 Description: {{description}}
+- 📅 Preferred Date: {{preferredDate}}
+- ⏰ Preferred Time: {{preferredTime}}
+
+Please follow up with the customer ASAP.
+*/
+
+
 interface FormData {
   fullName: string;
   mobile: string;
+  customerEmail: string; 
   address: string;
   scrapType: string;
   description: string;
@@ -81,23 +123,39 @@ const SellScrap = () => {
     }
 
     setIsSubmitting(true);
-    
+
+    const templateParams = {
+      fullName: data.fullName,
+      mobile: data.mobile,
+      customerEmail: data.customerEmail,
+      address: data.address,
+      scrapType: data.scrapType,
+      description: data.description || 'N/A',
+      preferredDate: data.preferredDate || 'Not specified',
+      preferredTime: data.preferredTime || 'Not specified',
+    };
+
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In a real implementation, you would send the data to your backend
       console.log("Form Data:", data);
-      console.log("Images:", selectedImages);
       
+      // --- UPDATED EMAILJS INTEGRATION ---
+      // Using Promise.all to send both emails concurrently.
+      await Promise.all([
+        // Admin notification email
+        emailjs.send('service_rd34lsn', 'template_c023ow8', templateParams, 'f6oMCUrakiDZm7aft'),
+        // Customer confirmation email
+        emailjs.send('service_rd34lsn', 'template_68h3uqn', templateParams, 'f6oMCUrakiDZm7aft')
+      ]);
+
       toast.success("Request submitted successfully!");
       setIsSubmitted(true);
     } catch (error) {
+      console.error("EmailJS Error:", error);
       toast.error("Failed to submit request. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   if (isSubmitted) {
     return (
@@ -206,6 +264,29 @@ const SellScrap = () => {
                             <p className="text-red-500 text-sm mt-1">{errors.mobile.message}</p>
                           )}
                         </div>
+                      </div>
+                      
+                      {/* Customer Email ID Field */}
+                      <div>
+                        <Label htmlFor="customerEmail">Email ID *</Label>
+                        <Input
+                          id="customerEmail"
+                          type="email"
+                          {...register("customerEmail", {
+                            required: "Email is required",
+                            pattern: {
+                              value: /^\S+@\S+\.\S+$/,
+                              message: "Please enter a valid email address",
+                            },
+                          })}
+                          className="mt-1"
+                          placeholder="Enter your email address"
+                        />
+                        {errors.customerEmail && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.customerEmail.message}
+                          </p>
+                        )}
                       </div>
 
                       {/* Address */}

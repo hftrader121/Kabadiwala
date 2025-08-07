@@ -18,6 +18,14 @@
   </head>
 
   <body>
+    <script>
+  const redirect = sessionStorage.redirect;
+  if (redirect) {
+    history.replaceState(null, null, redirect);
+    sessionStorage.redirect = null;
+  }
+</script>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
