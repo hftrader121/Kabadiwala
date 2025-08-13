@@ -24,10 +24,15 @@ function copy404Plugin() {
 
 export default defineConfig(() => ({
   // ✅ For custom domain, keep base as "/"
-  base: "/",
+  base: "/recycler-online/",
   server: {
     host: "::",
     port: 8080,
+    cors: {
+      origin: "*", // ✅ Allow all origins
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"]
+    }
   },
   plugins: [
     react(),

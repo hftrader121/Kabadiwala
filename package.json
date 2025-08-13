@@ -1,8 +1,9 @@
 {
-  "name": "Kabadiwala",
+  "name": "recycler-online",
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://www.therecycler.online",
+  "homepage": "https://hfdtrader121.github.io/recycler-online",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
