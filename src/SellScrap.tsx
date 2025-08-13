@@ -12,62 +12,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { 
-  Upload, 
-  Calendar, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Truck, 
+import {
+  Upload,
+  Calendar,
+  MapPin,
+  Phone,
+  Mail,
+  Truck,
   CheckCircle,
   Clock,
   DollarSign
 } from "lucide-react";
 
-// --- Email Templates (for reference) ---
-
-/*
-Subject: Scrap Pickup Request Received
-
-Hello {{fullName}},
-
-Thank you for submitting your scrap pickup request. We have received the following details:
-
-- 📧 Email: {{customerEmail}}
-- 📱 Mobile: {{mobile}}
-- 📍 Address: {{address}}
-- 🧾 Scrap Type: {{scrapType}}
-- 📅 Preferred Date: {{preferredDate}}
-- ⏰ Preferred Time: {{preferredTime}}
-
-We will contact you within 2 hours to confirm your pickup.
-
-Best regards,  
-Kabadiwala Team
-*/
-
-/*
-Subject: New Scrap Pickup Request
-
-You have received a new scrap pickup request:
-
-- 👤 Name: {{fullName}}
-- 📧 Email: {{customerEmail}}
-- 📱 Mobile: {{mobile}}
-- 📍 Address: {{address}}
-- 🧾 Scrap Type: {{scrapType}}
-- 📝 Description: {{description}}
-- 📅 Preferred Date: {{preferredDate}}
-- ⏰ Preferred Time: {{preferredTime}}
-
-Please follow up with the customer ASAP.
-*/
-
 
 interface FormData {
   fullName: string;
   mobile: string;
-  customerEmail: string; 
+  customerEmail: string;
   address: string;
   scrapType: string;
   description: string;
@@ -80,7 +41,7 @@ const SellScrap = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  
+
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<FormData>();
 
   const scrapTypes = [
@@ -97,7 +58,7 @@ const SellScrap = () => {
 
   const timeSlots = [
     "9:00 AM - 11:00 AM",
-    "11:00 AM - 1:00 PM", 
+    "11:00 AM - 1:00 PM",
     "1:00 PM - 3:00 PM",
     "3:00 PM - 5:00 PM",
     "5:00 PM - 7:00 PM"
@@ -105,7 +66,7 @@ const SellScrap = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    if (files.length + selectedImages.length > 5) {
+    if (files.length + selectedImages.length > 20) {
       toast.error("Maximum 5 images allowed");
       return;
     }
@@ -136,22 +97,34 @@ const SellScrap = () => {
     };
 
     try {
-      console.log("Form Data:", data);
-      
-      // --- UPDATED EMAILJS INTEGRATION ---
-      // Using Promise.all to send both emails concurrently.
-      await Promise.all([
-        // Admin notification email
-        emailjs.send('service_rd34lsn', 'template_c023ow8', templateParams, 'f6oMCUrakiDZm7aft'),
-        // Customer confirmation email
-        emailjs.send('service_rd34lsn', 'template_68h3uqn', templateParams, 'f6oMCUrakiDZm7aft')
-      ]);
+      console.log("Submitting with params:", templateParams);
+
+      // Step 1: Send the email to the admin
+      console.log("Sending admin notification...");
+      await emailjs.send(
+        'service_rd34lsn',
+        'template_68h3uqn', // Admin Template ID
+        templateParams,
+        'f6oMCUrakiDZm7aft'
+      );
+      console.log("Admin notification sent successfully.");
+
+      // Step 2: Send the confirmation email to the customer
+      console.log("Sending customer confirmation...");
+      await emailjs.send(
+        'service_rd34lsn',
+        'template_c023ow8', // Customer Template ID
+        templateParams,
+        'f6oMCUrakiDZm7aft'
+      );
+      console.log("Customer confirmation sent successfully.");
 
       toast.success("Request submitted successfully!");
       setIsSubmitted(true);
+
     } catch (error) {
-      console.error("EmailJS Error:", error);
-      toast.error("Failed to submit request. Please try again.");
+      console.error("EmailJS submission failed:", error);
+      toast.error("Failed to submit request. Please check details and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -190,10 +163,7 @@ const SellScrap = () => {
                 <Button onClick={() => setIsSubmitted(false)}>
                   Submit Another Request
                 </Button>
-                <Button variant="outline" onClick={() => window.location.href = "/"}>
-                  Back to Home
-                </Button>
-              </div>
+                 </div>
             </CardContent>
           </Card>
         </div>
@@ -205,13 +175,13 @@ const SellScrap = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Header */}
       <section className="py-20 bg-gradient-hero text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">Sell Your Scrap</h1>
           <p className="text-xl opacity-90 max-w-3xl mx-auto">
-            Get the best price for your scrap with our professional pickup service. 
+            Get the best price for your scrap with our professional pickup service.
             Fill out the form below and we'll contact you within 2 hours.
           </p>
         </div>
@@ -222,7 +192,7 @@ const SellScrap = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
+
               {/* Main Form */}
               <div className="lg:col-span-2">
                 <Card className="bg-gradient-card shadow-card">
@@ -245,12 +215,12 @@ const SellScrap = () => {
                             <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
                           )}
                         </div>
-                        
+
                         <div>
                           <Label htmlFor="mobile">Mobile Number *</Label>
                           <Input
                             id="mobile"
-                            {...register("mobile", { 
+                            {...register("mobile", {
                               required: "Mobile number is required",
                               pattern: {
                                 value: /^[6-9]\d{9}$/,
@@ -265,7 +235,7 @@ const SellScrap = () => {
                           )}
                         </div>
                       </div>
-                      
+
                       {/* Customer Email ID Field */}
                       <div>
                         <Label htmlFor="customerEmail">Email ID *</Label>
@@ -354,7 +324,7 @@ const SellScrap = () => {
                               </p>
                             </div>
                           </label>
-                          
+
                           {selectedImages.length > 0 && (
                             <div className="grid grid-cols-3 gap-2 mt-4">
                               {selectedImages.map((file, index) => (
@@ -390,7 +360,7 @@ const SellScrap = () => {
                             min={new Date().toISOString().split('T')[0]}
                           />
                         </div>
-                        
+
                         <div>
                           <Label>Preferred Time</Label>
                           <Select onValueChange={(value) => setValue("preferredTime", value)}>
@@ -413,8 +383,8 @@ const SellScrap = () => {
                           {...register("acceptTerms", { required: true })}
                         />
                         <Label htmlFor="acceptTerms" className="text-sm leading-relaxed">
-                          I accept the terms and conditions and agree to the pickup service. 
-                          I understand that final pricing will be determined based on actual 
+                          I accept the terms and conditions and agree to the pickup service.
+                          I understand that final pricing will be determined based on actual
                           weight and quality assessment.
                         </Label>
                       </div>
@@ -443,7 +413,7 @@ const SellScrap = () => {
                 </Card>
               </div>
 
-              {/* Sidebar Info */}
+              {/* Sidebar Info - THIS SECTION IS NOW CORRECT */}
               <div className="space-y-6">
                 <Card className="bg-gradient-card shadow-card">
                   <CardHeader>

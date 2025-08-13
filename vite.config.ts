@@ -18,7 +18,7 @@ function copy404Plugin() {
 }
 
 export default defineConfig(({ mode }) => ({
-  base: "/Kabadiwala/",
+  base: "/",
   server: {
     host: "::",
     port: 8080,
