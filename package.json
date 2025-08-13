@@ -2,12 +2,12 @@
   "name": "Kabadiwala",
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://hftrader121.github.io/Kabadiwala",
+  "homepage": "https://www.therecycler.online",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && echo therecycler.online > dist/CNAME",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

@@ -9,15 +9,21 @@ function copy404Plugin() {
   return {
     name: "copy-404",
     closeBundle() {
-      copyFileSync(
-        resolve(__dirname, "404.html"),
-        resolve(__dirname, "dist/404.html")
-      );
+      try {
+        copyFileSync(
+          resolve(__dirname, "404.html"),
+          resolve(__dirname, "dist/404.html")
+        );
+        console.log("✅ 404.html copied to dist/");
+      } catch (err) {
+        console.error("❌ Failed to copy 404.html:", err);
+      }
     },
   };
 }
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
+  // ✅ For custom domain, keep base as "/"
   base: "/",
   server: {
     host: "::",
@@ -31,5 +37,9 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
   },
 }));
