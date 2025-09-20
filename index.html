@@ -1,125 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kabadiwala Hero Banner</title>
-  <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>H.F Traders - Scrap Merchant Delhi | Turning Waste into Worth Since 1974</title>
+    <meta name="description" content="H.F Traders - Trusted scrap merchant in Delhi since 1974. We buy iron, copper, AC units, vehicles, and all types of scrap at best market rates. Free pickup service available." />
+    <meta name="author" content="H.F Traders" />
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow-x: hidden;
-      background: #0d0d0d;
-      color: white;
-    }
+    <meta property="og:title" content="H.F Traders - Scrap Merchant Delhi | Best Rates for All Scrap Types" />
+    <meta property="og:description" content="Professional scrap dealing service in Delhi NCR. Get the best price for your iron, copper, AC units, and vehicles. Free pickup and instant payment." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
-    /* Hero Banner */
-    .hero-banner {
-      position: relative;
-      width: 100%;
-      height: 500px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
 
-    /* Animated 3D particles */
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at 50% 50%, #ff6600, #ff9900, transparent 70%);
-      animation: rotateBG 15s linear infinite;
-      z-index: 0;
-      filter: blur(100px);
-    }
+  <body>
+    <script>
+  const redirect = sessionStorage.redirect;
+  if (redirect) {
+    history.replaceState(null, null, redirect);
+    sessionStorage.redirect = null;
+  }
+</script>
 
-    @keyframes rotateBG {
-      0% { transform: rotate(0deg) scale(1.2); }
-      50% { transform: rotate(180deg) scale(1.3); }
-      100% { transform: rotate(360deg) scale(1.2); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      padding: 40px 60px;
-      background-color: rgba(0,0,0,0.5);
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-    }
-
-    .hero-content h1 {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(255,102,0,0.7);
-    }
-
-    .hero-content p {
-      font-size: 1.3rem;
-      margin-bottom: 25px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.5);
-    }
-
-    .hero-content a {
-      display: inline-block;
-      padding: 12px 30px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: white;
-      background-color: #ff6600;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: 0.3s;
-      box-shadow: 0 0 15px rgba(255,102,0,0.7);
-    }
-
-    .hero-content a:hover {
-      background-color: #e65c00;
-      box-shadow: 0 0 25px rgba(255,102,0,1);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero-banner { height: 350px; }
-      .hero-content h1 { font-size: 2rem; }
-      .hero-content p { font-size: 1rem; }
-    }
-
-    /* Floating 3D dots animation */
-    .dot {
-      position: absolute;
-      border-radius: 50%;
-      background: #ff6600;
-      opacity: 0.5;
-      animation: floatDots linear infinite;
-    }
-
-    @keyframes floatDots {
-      0% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(-200px) translateX(100px) scale(1.5); }
-      100% { transform: translateY(0) translateX(0) scale(1); }
-    }
-  </style>
-</head>
-<body>
-  <div class="hero-banner">
-    <div class="hero-content">
-      <h1>Welcome to Kabadiwala</h1>
-      <p>Recycle, Reuse, and Solve India Now!</p>
-      <a href="#services">Explore Services</a>
-    </div>
-    <!-- Optional 3D floating dots -->
-    <div class="dot" style="width:10px; height:10px; top:50px; left:80px; animation-duration:12s;"></div>
-    <div class="dot" style="width:15px; height:15px; top:200px; left:200px; animation-duration:18s;"></div>
-    <div class="dot" style="width:8px; height:8px; top:120px; left:400px; animation-duration:10s;"></div>
-    <div class="dot" style="width:12px; height:12px; top:300px; left:600px; animation-duration:15s;"></div>
-  </div>
-</body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
